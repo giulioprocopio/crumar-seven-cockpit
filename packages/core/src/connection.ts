@@ -42,6 +42,9 @@ export interface Connection {
    */
   getCatalog(): Promise<Catalog>;
 
+  /** Read a one-shot snapshot of live values and display labels. */
+  getState(): Promise<LiveUpdate>;
+
   /** Select a sound by its catalog index. */
   setSound(index: number): Promise<void>;
 

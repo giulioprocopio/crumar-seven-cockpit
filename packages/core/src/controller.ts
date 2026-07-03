@@ -2,6 +2,8 @@ import type {
   Catalog,
   GlobalState,
   LiveUpdate,
+  Param,
+  ParamOption,
   ParamValues,
 } from './model.js';
 import type { Connection, ConnectionState } from './connection.js';
@@ -29,6 +31,7 @@ export class Controller {
   private readonly events = new Emitter<ControllerEvents>();
   private readonly unsubscribes: Array<() => void> = [];
   private readonly recentlySet = new Map<string, number>();
+  private readonly optionCache = new Map<string, ParamOption[]>();
 
   private currentCatalog: Catalog | null = null;
   private currentValues: ParamValues = {};
@@ -106,8 +109,55 @@ export class Controller {
   }
 
   private async reloadCatalog(): Promise<void> {
-    this.currentCatalog = await this.connection.getCatalog();
+    this.currentCatalog = null; // show a "learning" state while we enrich
     this.events.emit('change');
+    const catalog = await this.connection.getCatalog();
+    await this.learnOptions(catalog);
+    this.currentCatalog = catalog;
+    this.events.emit('change');
+  }
+
+  /**
+   * Enrich enum parameters with option labels. Steps each candidate through its
+   * values, reading the label the connection reports, then restores the value.
+   * Uses `setParam` so the recently-set guard keeps the poll loop from
+   * clobbering the sweep. Cached per id.
+   */
+  private async learnOptions(catalog: Catalog): Promise<void> {
+    const params = [...catalog.soundParams, ...catalog.fxParams];
+    const state = await this.connection.getState();
+    const displays = state.displays ?? {};
+    const toSweep: Param[] = [];
+    for (const param of params) {
+      const cached = this.optionCache.get(param.id);
+      if (cached) {
+        param.options = cached;
+      } else if (isEnumCandidate(param, displays)) {
+        toSweep.push(param);
+      }
+    }
+    for (const param of toSweep) {
+      const original = state.values[param.id] ?? param.min;
+      const options = await this.sweepOptions(param, original);
+      this.optionCache.set(param.id, options);
+      param.options = options;
+    }
+  }
+
+  /** Step a parameter through its range, reading each value's label. */
+  private async sweepOptions(
+    param: Param,
+    original: number,
+  ): Promise<ParamOption[]> {
+    const options: ParamOption[] = [];
+    for (let value = param.min; value <= param.max; value++) {
+      await this.setParam(param.id, value);
+      const state = await this.connection.getState();
+      const label = state.displays?.[param.id] ?? String(value);
+      options.push({ value, label });
+    }
+    await this.setParam(param.id, original);
+    return options;
   }
 
   private applyUpdate(update: LiveUpdate): void {
@@ -131,4 +181,15 @@ export class Controller {
     this.currentGlobal = global;
     this.events.emit('change');
   }
+}
+
+/** A small-range param whose live display is a name (not a number). */
+function isEnumCandidate(
+  param: Param,
+  displays: Record<string, string>,
+): boolean {
+  if (param.max - param.min < 2 || param.max > 12) return false;
+  const display = displays[param.id];
+  if (display === undefined || display === '') return false;
+  return Number.isNaN(Number(display));
 }

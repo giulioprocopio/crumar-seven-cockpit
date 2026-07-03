@@ -11,6 +11,12 @@ export interface Sound {
   bank?: number;
 }
 
+/** One named choice for an enumerated parameter. */
+export interface ParamOption {
+  value: number;
+  label: string;
+}
+
 /** One editable parameter's definition (its shape, not its current value). */
 export interface Param {
   /** Stable id used to read / write the value (e.g. `"rho_atk"`). */
@@ -22,6 +28,8 @@ export interface Param {
   max: number;
   /** MIDI CC the instrument maps to this parameter, if any. */
   cc?: number;
+  /** Named choices, if this parameter is an enumeration (else numeric). */
+  options?: ParamOption[];
 }
 
 /**

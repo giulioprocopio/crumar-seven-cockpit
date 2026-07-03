@@ -93,6 +93,11 @@ export class WifiConnection implements Connection {
     };
   }
 
+  /** One-shot read of live values and display labels (poll channel 3). */
+  async getState(): Promise<LiveUpdate> {
+    return toLiveUpdate(parseStateDump(await this.request('poll', { p: 3 })));
+  }
+
   async setSound(index: number): Promise<void> {
     await this.request('snd', { n: index });
   }
