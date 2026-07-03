@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Logs
+*.log
+
+# MacOS
+.DS_Store
+
+# Vite
+.vite/

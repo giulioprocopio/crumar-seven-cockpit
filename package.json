@@ -1,0 +1,21 @@
+{
+  "name": "crumar-seven-cockpit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reverse-engineered open editor protocols and UI for the Crumar Seven keyboard.",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @crumar-seven-cockpit/web",
+    "build": "npm run build --workspace @crumar-seven-cockpit/core && npm run build --workspace @crumar-seven-cockpit/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspace @crumar-seven-cockpit/core",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}
