@@ -151,13 +151,23 @@ export class Controller {
   ): Promise<ParamOption[]> {
     const options: ParamOption[] = [];
     for (let value = param.min; value <= param.max; value++) {
-      await this.setParam(param.id, value);
-      const state = await this.connection.getState();
-      const label = state.displays?.[param.id] ?? String(value);
-      options.push({ value, label });
+      options.push({ value, label: await this.readLabel(param.id, value) });
     }
     await this.setParam(param.id, original);
     return options;
+  }
+
+  /**
+   * Set a parameter and read its display label, waiting until the device
+   * confirms the new value so we don't capture the previous value's label.
+   */
+  private async readLabel(id: string, value: number): Promise<string> {
+    await this.setParam(id, value);
+    let state = await this.connection.getState();
+    for (let tries = 0; state.values[id] !== value && tries < 8; tries++) {
+      state = await this.connection.getState();
+    }
+    return state.displays?.[id] ?? String(value);
   }
 
   private applyUpdate(update: LiveUpdate): void {
