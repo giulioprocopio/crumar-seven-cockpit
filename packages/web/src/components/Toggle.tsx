@@ -7,9 +7,7 @@ export interface ToggleProps {
 
 /** An on/off switch bound to a boolean parameter. */
 export function Toggle({ value, onChange }: ToggleProps) {
-  const cls = [styles['toggle-switch'], value ? styles.on : '']
-    .filter(Boolean)
-    .join(' ');
+  const cls = [styles.root, value ? styles.on : ''].filter(Boolean).join(' ');
 
   return (
     <button
@@ -19,7 +17,7 @@ export function Toggle({ value, onChange }: ToggleProps) {
       className={cls}
       onClick={() => onChange(!value)}
     >
-      <span className={styles['toggle-knob']} />
+      <span className={styles.knob} />
     </button>
   );
 }

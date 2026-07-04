@@ -1,4 +1,4 @@
-.knob {
+.root {
   --r: 50px;
   --main-color: #7ee07e;
   --core-color: #d8ffd0;
@@ -11,7 +11,7 @@
   user-select: none;
   isolation: isolate;
 }
-.knob:active {
+.root:active {
   cursor: grabbing;
 }
 
@@ -175,10 +175,10 @@
     rgba(0, 0, 0, 0) 100%
   );
 }
-.on .glow {
+.root.on .glow {
   opacity: 1;
 }
-.on .led {
+.root.on .led {
   background-color: var(--core-color);
   box-shadow: 0 0 calc(var(--r) * 0.16) calc(var(--r) * 0.06) var(--main-color);
 }

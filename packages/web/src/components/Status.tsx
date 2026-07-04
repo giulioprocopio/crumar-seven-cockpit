@@ -13,7 +13,7 @@ export function Status({ label, variant }: StatusProps) {
     .filter(Boolean)
     .join(' ');
   return (
-    <div className={styles.status}>
+    <div className={styles.root}>
       <span className={dotCls} />
       <span className={styles.label}>{label}</span>
     </div>

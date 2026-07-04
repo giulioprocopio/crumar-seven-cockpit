@@ -58,27 +58,27 @@ export function Knob({ value, min, max, onChange, unit }: KnobProps) {
   };
 
   return (
-    <div className={styles.knob}>
+    <div className={styles.root}>
       <svg
-        className={styles['knob-dial']}
+        className={styles.dial}
         viewBox={`0 0 ${CX * 2} ${CY * 2}`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onWheel={onWheel}
       >
-        <circle className={styles['knob-face']} cx={CX} cy={CY} r={FACE_R} />
+        <circle className={styles.face} cx={CX} cy={CY} r={FACE_R} />
         <line
-          className={styles['knob-pointer']}
+          className={styles.pointer}
           x1={CX}
           y1={CY}
           x2={CX + ARM * Math.sin(radians)}
           y2={CY - ARM * Math.cos(radians)}
         />
       </svg>
-      <div className={styles['knob-value']}>
+      <div className={styles.value}>
         {value}
-        {unit ? <span className={styles['knob-unit']}> {unit}</span> : null}
+        {unit ? <span className={styles.unit}> {unit}</span> : null}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-.toggle-switch {
+.root {
   width: 46px;
   height: 26px;
   border-radius: 20px;
@@ -9,7 +9,7 @@
   padding: 0;
 }
 
-.toggle-knob {
+.knob {
   position: absolute;
   top: 2px;
   left: 2px;
@@ -22,11 +22,11 @@
     background 0.15s;
 }
 
-.toggle-switch.on {
+.root.on {
   border-color: var(--accent);
 }
 
-.toggle-switch.on .toggle-knob {
+.root.on .knob {
   left: 22px;
   background: var(--accent);
 }

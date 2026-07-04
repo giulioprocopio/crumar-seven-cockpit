@@ -10,7 +10,7 @@ export interface SevenToggleProps {
 
 /** A Crumar-style led button. */
 export function SevenToggle({ value, onChange, className }: SevenToggleProps) {
-  const cls = [styles.toggle, value ? styles.on : '', className ?? '']
+  const cls = [styles.root, value ? styles.on : '', className ?? '']
     .filter(Boolean)
     .join(' ');
   return (

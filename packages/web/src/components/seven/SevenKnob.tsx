@@ -151,7 +151,7 @@ export function SevenKnob({
     '--core-color': rgb(core),
     '--deep-color': rgb(deepen(led)),
   } as CSSProperties;
-  const cls = [styles.knob, on ? styles.on : '', className ?? '']
+  const cls = [styles.root, on ? styles.on : '', className ?? '']
     .filter(Boolean)
     .join(' ');
 
