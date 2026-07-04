@@ -1,0 +1,34 @@
+.knob {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+}
+
+.knob-dial {
+  width: 56px;
+  height: 56px;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.knob-face {
+  fill: var(--bg-elev);
+  stroke: var(--line);
+  stroke-width: 2;
+}
+
+.knob-pointer {
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.knob-value {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.knob-unit {
+  color: var(--text-dim);
+}
