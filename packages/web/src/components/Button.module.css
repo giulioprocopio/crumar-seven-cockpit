@@ -1,0 +1,31 @@
+.root {
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.root:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.root:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: var(--accent);
+  color: var(--text-invert);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.primary:hover:not(:disabled) {
+  border-color: transparent;
+  filter: brightness(1.1);
+}

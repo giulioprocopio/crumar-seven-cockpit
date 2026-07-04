@@ -42,5 +42,5 @@
 }
 
 .option.active {
-  color: var(--bg);
+  color: var(--text-invert);
 }
