@@ -1,0 +1,38 @@
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--idle);
+  flex-shrink: 0;
+}
+
+.pending {
+  background: var(--accent);
+  animation: pulse 1s infinite;
+}
+
+.active {
+  background: var(--good);
+  box-shadow: 0 0 8px var(--good);
+}
+
+.error {
+  background: var(--bad);
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.label {
+  font-size: 13px;
+  color: var(--text-dim);
+}

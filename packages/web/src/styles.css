@@ -8,6 +8,7 @@
   --text-dim: #9aa3b0;
   --accent: #f4a13c;
   --accent-alt: #3ca7f4;
+  --idle: #555;
   --good: #38d39f;
   --wait: #ffa500;
   --bad: #f45c5c;
@@ -21,11 +22,14 @@
 
 body {
   margin: 0;
-  background: radial-gradient(
-    1200px 600px at 50% -10%,
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image: radial-gradient(
+    100vw 60vh at 50% -10%,
     var(--bg-gradient),
-    var(--bg) 60%
+    transparent 60%
   );
+  background-repeat: no-repeat;
   color: var(--text);
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;
