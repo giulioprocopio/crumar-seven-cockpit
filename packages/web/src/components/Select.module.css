@@ -1,6 +1,46 @@
-.control-select {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  grid-column: span 2;
+.select {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  pointer-events: none;
+  transition:
+    transform 0.15s ease,
+    width 0.15s ease,
+    height 0.15s ease;
+}
+
+.option {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.option:hover {
+  color: var(--text);
+}
+
+.option.active {
+  color: var(--bg);
 }
