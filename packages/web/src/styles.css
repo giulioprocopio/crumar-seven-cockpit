@@ -1,0 +1,7 @@
+:root {
+  --good: #38d39f;
+  --wait: #ffa500;
+  --bad: #f45c5c;
+  --radius: 12px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
