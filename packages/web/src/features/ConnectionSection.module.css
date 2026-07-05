@@ -1,0 +1,38 @@
+.root {
+  display: grid;
+  width: 250px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'select action'
+    'feedback feedback';
+  column-gap: var(--spacing-x);
+  row-gap: var(--spacing-y);
+  align-items: center;
+}
+
+.select {
+  grid-area: select;
+}
+
+.action {
+  grid-area: action;
+  justify-self: end;
+}
+
+.feedback {
+  grid-area: feedback;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.space {
+  flex: 0 0 0.5rem;
+}
+
+.error {
+  min-width: 0;
+  color: var(--bad);
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
