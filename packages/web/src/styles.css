@@ -45,3 +45,37 @@ body {
 .app {
   padding: 16px;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-y) var(--spacing-x);
+  width: min(70vw, 1200px);
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    width: 100%;
+  }
+}
+
+.col-span-1 {
+  grid-column: span 1;
+}
+.col-span-2 {
+  grid-column: span 2;
+}
+.col-span-3 {
+  grid-column: span 3;
+}
+
+.row-start-1 {
+  grid-row-start: 1;
+}
+.col-start-2 {
+  grid-column-start: 2;
+}
+.col-start-3 {
+  grid-column-start: 3;
+}
