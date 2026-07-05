@@ -16,10 +16,13 @@ export interface CockpitState {
   sound: number;
   global: GlobalState | null;
   error: string | null;
+  /** True once the catalog has been fetched at least once since connecting. */
+  loaded: boolean;
 }
 
 /** Everything a component needs: current state plus the actions. */
 export interface Cockpit extends CockpitState {
+  initializing: boolean;
   controller: Controller;
   connect: () => void;
   disconnect: () => void;
@@ -45,10 +48,11 @@ export function useCockpit(createConnection: () => Connection): Cockpit {
     sound: controller.sound,
     global: controller.global,
     error: null,
+    loaded: false,
   });
 
   useEffect(() => {
-    const sync = () =>
+    const offChange = controller.on('change', () => {
       setState((prev) => ({
         ...prev,
         status: controller.state,
@@ -56,12 +60,23 @@ export function useCockpit(createConnection: () => Connection): Cockpit {
         values: controller.values,
         sound: controller.sound,
         global: controller.global,
+        loaded: prev.loaded || controller.catalog !== null,
       }));
-    const offChange = controller.on('change', sync);
-    const offState = controller.on('state', sync);
+    });
+
+    const offState = controller.on('state', (newState) => {
+      setState((prev) => ({
+        ...prev,
+        status: newState,
+        // Reset loaded on disconnect so the next connect shows "Initializing..." again.
+        loaded: newState === 'connected' ? prev.loaded : false,
+      }));
+    });
+
     const offError = controller.on('error', (e) =>
       setState((prev) => ({ ...prev, error: e.message })),
     );
+
     return () => {
       offChange();
       offState();
@@ -71,10 +86,17 @@ export function useCockpit(createConnection: () => Connection): Cockpit {
 
   return {
     ...state,
+    initializing: state.status === 'connected' && !state.loaded,
     controller,
-    connect: () => void controller.connect(),
+    connect: () => {
+      setState((prev) => ({ ...prev, error: null }));
+      void controller.connect();
+    },
     disconnect: () => void controller.disconnect(),
     setParam: (id, value) => void controller.setParam(id, value),
-    setSound: (index) => void controller.setSound(index),
+    setSound: (index) => {
+      setState((prev) => ({ ...prev, sound: index }));
+      void controller.setSound(index);
+    },
   };
 }

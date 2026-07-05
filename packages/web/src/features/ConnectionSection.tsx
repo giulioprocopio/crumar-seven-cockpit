@@ -14,7 +14,8 @@ const CONNECTION_OPTIONS = [
   { value: 1, label: 'USB' },
 ];
 
-function toLabel(status: ConnectionState): string {
+function toLabel(status: ConnectionState, initializing: boolean): string {
+  if (initializing) return 'Initializing...';
   switch (status) {
     case 'connected':
       return 'Connected';
@@ -27,7 +28,11 @@ function toLabel(status: ConnectionState): string {
   }
 }
 
-function toVariant(status: ConnectionState): StatusVariant {
+function toVariant(
+  status: ConnectionState,
+  initializing: boolean,
+): StatusVariant {
+  if (initializing) return 'pending';
   switch (status) {
     case 'connected':
       return 'active';
@@ -48,8 +53,11 @@ interface ConnectionSectionProps {
 /**
  * Connection type selector, status indicator, and connect / disconnect action.
  */
-export function ConnectionSection({ cockpit, className }: ConnectionSectionProps) {
-  const { status, error, connect, disconnect } = cockpit;
+export function ConnectionSection({
+  cockpit,
+  className,
+}: ConnectionSectionProps) {
+  const { status, error, initializing, connect, disconnect } = cockpit;
   const [connType, setConnType] = useState<ConnectionType>('wifi');
 
   const canSwitch = status === 'disconnected' || status === 'error';
@@ -75,7 +83,10 @@ export function ConnectionSection({ cockpit, className }: ConnectionSectionProps
           )}
         </div>
         <div className={styles.feedback}>
-          <Status label={toLabel(status)} variant={toVariant(status)} />
+          <Status
+            label={toLabel(status, initializing)}
+            variant={toVariant(status, initializing)}
+          />
           <span className={styles.space} aria-hidden="true">
             {' '}
           </span>
