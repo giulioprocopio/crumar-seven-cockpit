@@ -1,0 +1,9 @@
+.root {
+  padding: 14px 18px;
+}
+
+.style {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
