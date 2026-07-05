@@ -14,7 +14,12 @@
   --wait: #ffa500;
   --bad: #f45c5c;
   --radius: 12px;
+  --radius-control: 8px;
+  --spacing-x: 20px;
+  --spacing-y: 10px;
   --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-size: 14px;
+  --font-size-sm: 12px;
 }
 
 * {
@@ -33,6 +38,7 @@ body {
   background-repeat: no-repeat;
   color: var(--text);
   font-family: var(--font);
+  font-size: var(--font-size);
   -webkit-font-smoothing: antialiased;
 }
 

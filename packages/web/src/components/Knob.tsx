@@ -7,6 +7,7 @@ export interface KnobProps {
   max: number;
   onChange: (value: number) => void;
   unit?: string;
+  className?: string;
 }
 
 /** Total rotation arc in degrees, centred at 12 o'clock. */
@@ -27,7 +28,7 @@ const FACE_R = 20;
 const ARM = 15;
 
 /** A rotary control bound to a numeric parameter. */
-export function Knob({ value, min, max, onChange, unit }: KnobProps) {
+export function Knob({ value, min, max, onChange, unit, className }: KnobProps) {
   const drag = useRef<{ startY: number; startValue: number } | null>(null);
 
   const range = max - min || 1;
@@ -58,7 +59,7 @@ export function Knob({ value, min, max, onChange, unit }: KnobProps) {
   };
 
   return (
-    <div className={styles.root}>
+    <div className={[styles.root, className].filter(Boolean).join(' ')}>
       <svg
         className={styles.dial}
         viewBox={`0 0 ${CX * 2} ${CY * 2}`}

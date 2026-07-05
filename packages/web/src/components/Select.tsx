@@ -7,6 +7,7 @@ export interface SelectProps {
   options: ParamOption[];
   onChange: (value: number) => void;
   disabled?: boolean;
+  className?: string;
 }
 
 interface IndicatorRect {
@@ -17,7 +18,7 @@ interface IndicatorRect {
 }
 
 /** A segmented control with a sliding selection indicator. */
-export function Select({ value, options, onChange, disabled }: SelectProps) {
+export function Select({ value, options, onChange, disabled, className }: SelectProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState<IndicatorRect | null>(null);
 
@@ -35,7 +36,7 @@ export function Select({ value, options, onChange, disabled }: SelectProps) {
   }, [value, options]);
 
   return (
-    <div ref={containerRef} className={styles.select}>
+    <div ref={containerRef} className={[styles.root, className].filter(Boolean).join(' ')}>
       {indicator && (
         <span
           className={styles.indicator}

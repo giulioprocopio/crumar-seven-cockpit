@@ -2,6 +2,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding: 3px;
 }
 
 .dot {
@@ -33,6 +34,6 @@
 }
 
 .label {
-  font-size: 13px;
+  font-size: var(--font-size);
   color: var(--text-dim);
 }

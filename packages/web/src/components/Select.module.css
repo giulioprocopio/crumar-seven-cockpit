@@ -1,10 +1,10 @@
-.select {
+.root {
   position: relative;
   display: inline-flex;
   flex-wrap: wrap;
   background: var(--bg-elev);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   padding: 3px;
   gap: 2px;
 }
@@ -13,7 +13,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 6px;
+  border-radius: calc(var(--radius-control) - 2px);
   background: var(--accent);
   pointer-events: none;
   transition:
@@ -29,15 +29,20 @@
   border: none;
   color: var(--text-dim);
   padding: 5px 10px;
-  border-radius: 6px;
+  border-radius: calc(var(--radius-control) - 2px);
   font-family: inherit;
-  font-size: 12px;
+  font-size: var(--font-size);
   cursor: pointer;
   white-space: nowrap;
   transition: color 0.15s;
 }
 
-.option:hover {
+.option:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.option:hover:not(:disabled):not(.active) {
   color: var(--text);
 }
 
