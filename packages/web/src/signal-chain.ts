@@ -1,11 +1,8 @@
 import type { Catalog, Param, ParamValues } from '@crumar-seven-cockpit/core';
 
 export type StageKind =
-  | 'source'
   | 'inline'
-  | 'mixin'
-  | 'modulator'
-  | 'output';
+  | 'extra';
 
 /** One stage in the Seven's signal path. */
 export interface Stage {
@@ -23,7 +20,8 @@ export interface Stage {
  * into the final stage after reverb.
  */
 export const CHAIN: Stage[] = [
-  { id: 'engine', label: 'Engine', groups: [], kind: 'source' },
+  { id: 'expr', label: 'Expression', groups: ['pdl_exp'], kind: 'extra' },
+  { id: 'engine', label: 'Engine', groups: [], kind: 'inline' },
   {
     id: 'fx1',
     label: 'FX1',
@@ -57,10 +55,9 @@ export const CHAIN: Stage[] = [
     label: 'Pad',
     groups: ['efx_pad'],
     bypass: 'pad_sw',
-    kind: 'mixin',
+    kind: 'extra',
   },
-  { id: 'master', label: 'EQ / Volume', groups: ['efx_veq'], kind: 'output' },
-  { id: 'expr', label: 'Expression', groups: ['pdl_exp'], kind: 'modulator' },
+  { id: 'master', label: 'EQ / Volume', groups: ['efx_veq'], kind: 'inline' },
 ];
 
 /**
