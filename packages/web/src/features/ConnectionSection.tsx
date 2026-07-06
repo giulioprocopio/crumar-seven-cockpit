@@ -65,7 +65,7 @@ export function ConnectionSection({
   return (
     <Section className={className}>
       <div className={styles.root}>
-        <div className={styles.select}>
+        <div className={styles.switch}>
           <Select
             value={connType === 'wifi' ? 0 : 1}
             options={CONNECTION_OPTIONS}
@@ -73,7 +73,7 @@ export function ConnectionSection({
             disabled={!canSwitch}
           />
         </div>
-        <div className={styles.action}>
+        <div className={styles.button}>
           {status === 'connected' ? (
             <Button onClick={disconnect}>Disconnect</Button>
           ) : (
@@ -87,9 +87,7 @@ export function ConnectionSection({
             label={toLabel(status, initializing)}
             variant={toVariant(status, initializing)}
           />
-          <span className={styles.space} aria-hidden="true">
-            {' '}
-          </span>
+          <span className={styles.space}></span>
           <p className={styles.error}>{error ?? ''}</p>
         </div>
       </div>
