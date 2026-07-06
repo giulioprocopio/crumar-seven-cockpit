@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState } from 'react';
+import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import type { ParamOption } from '@crumar-seven-cockpit/core';
 import styles from './Select.module.css';
 
@@ -21,6 +21,15 @@ interface IndicatorRect {
 export function Select({ value, options, onChange, disabled, className }: SelectProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState<IndicatorRect | null>(null);
+  const [sizeTick, setSizeTick] = useState(0);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => setSizeTick((t) => t + 1));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -33,7 +42,7 @@ export function Select({ value, options, onChange, disabled, className }: Select
       width: active.offsetWidth,
       height: active.offsetHeight,
     });
-  }, [value, options]);
+  }, [value, options, sizeTick]);
 
   return (
     <div ref={containerRef} className={[styles.root, className].filter(Boolean).join(' ')}>

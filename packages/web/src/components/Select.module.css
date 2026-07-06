@@ -2,6 +2,8 @@
   position: relative;
   display: inline-flex;
   flex-wrap: wrap;
+  max-width: 100%;
+  min-width: fit-content;
   background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: var(--radius-control);
@@ -25,6 +27,7 @@
 .option {
   position: relative;
   z-index: 1;
+  flex: 1;
   background: transparent;
   border: none;
   color: var(--text-dim);
