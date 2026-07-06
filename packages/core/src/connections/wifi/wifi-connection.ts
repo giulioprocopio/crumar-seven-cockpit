@@ -45,6 +45,7 @@ export class WifiConnection implements Connection {
   private currentState: ConnectionState = 'disconnected';
   private pollTimer: ReturnType<typeof setInterval> | null = null;
   private polling = false;
+  private lostPollCount = 0;
 
   constructor(options: WifiConnectionOptions = {}) {
     this.baseUrl = options.baseUrl ?? '/device';
@@ -134,6 +135,7 @@ export class WifiConnection implements Connection {
 
   private startPolling(): void {
     this.stopPolling();
+    this.lostPollCount = 0;
     void this.poll(); // load the current state immediately
     this.pollTimer = setInterval(() => void this.poll(), this.pollIntervalMs);
   }
@@ -153,10 +155,14 @@ export class WifiConnection implements Connection {
 
       const global = parsePoll(await this.request('poll', { p: 0 }));
       if (global.raw.trim()) this.events.emit('global', toGlobal(global));
+
+      this.lostPollCount = 0;
     } catch (error) {
-      this.stopPolling();
-      this.setState('error');
-      this.fail(error);
+      if (++this.lostPollCount >= 3) {
+        this.stopPolling();
+        this.setState('error');
+        this.fail(error);
+      }
     } finally {
       this.polling = false;
     }
