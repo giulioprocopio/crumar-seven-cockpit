@@ -154,6 +154,8 @@ export class WifiConnection implements Connection {
       const global = parsePoll(await this.request('poll', { p: 0 }));
       if (global.raw.trim()) this.events.emit('global', toGlobal(global));
     } catch (error) {
+      this.stopPolling();
+      this.setState('error');
       this.fail(error);
     } finally {
       this.polling = false;
