@@ -4,6 +4,7 @@ import { useCockpit } from './hooks/use-cockpit.js';
 import { ConnectionSection } from './features/ConnectionSection.js';
 import { HeaderSection } from './features/HeaderSection.js';
 import { SoundSection } from './features/SoundSection.js';
+import { SignalSection } from './features/SignalSection.js';
 
 /** Composition root: picks the transport and renders the graph editor. */
 export function App() {
@@ -23,8 +24,13 @@ export function App() {
     <div className="app">
       <div className="grid">
         <HeaderSection />
-        <ConnectionSection cockpit={cockpit} className="col-start-3" />
-        {showSections && <SoundSection cockpit={cockpit} className="col-span-3" />}
+        <ConnectionSection cockpit={cockpit} />
+        {showSections && (
+          <SoundSection cockpit={cockpit} className="grid-line" />
+        )}
+        {showSections && (
+          <SignalSection cockpit={cockpit} className="grid-line" />
+        )}
       </div>
     </div>
   );
